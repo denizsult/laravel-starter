@@ -23,7 +23,7 @@ class RabbitMQWorker implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle(): void
+    public static function fire(): void
     {
         echo 'RabbitMQWorker is working...';
     }
