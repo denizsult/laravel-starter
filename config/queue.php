@@ -34,6 +34,20 @@ return [
             'driver' => 'sync',
         ],
 
+        'rabbitmq' => [
+            'driver' => 'rabbitmq',
+            'hosts' => [
+                [
+                    'host' => env('RABBITMQ_HOST', 'rabbitmq'),
+                    'port' => env('RABBITMQ_PORT', 5672),
+                    'vhost' => env('RABBITMQ_VHOST', '/'),
+                    'login' => env('RABBITMQ_USER', 'guest'),
+                    'password' => env('RABBITMQ_PASSWORD', 'guest')
+                ]
+            ]
+        ],
+
+
         'database' => [
             'driver' => 'database',
             'table' => 'jobs',
