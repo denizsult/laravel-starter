@@ -29,24 +29,20 @@ return [
     */
 
     'connections' => [
-
-        'sync' => [
-            'driver' => 'sync',
-        ],
-
         'rabbitmq' => [
             'driver' => 'rabbitmq',
+            'queue' => env('RABBITMQ_QUEUE', 'default'),
+            'connection' => PhpAmqpLib\Connection\AMQPLazyConnection::class,
             'hosts' => [
                 [
-                    'host' => env('RABBITMQ_HOST', 'rabbitmq'),
-                    'port' => env('RABBITMQ_PORT', 5672),
+                    'host' => env('RABBITMQ_HOST', '127.0.0.1'),
+                    'port' => env('RABBITMQ_PORT', 15672),
                     'vhost' => env('RABBITMQ_VHOST', '/'),
-                    'login' => env('RABBITMQ_USER', 'guest'),
+                    'user' => env('RABBITMQ_USER', 'guest'),
                     'password' => env('RABBITMQ_PASSWORD', 'guest')
                 ]
             ]
         ],
-
 
         'database' => [
             'driver' => 'database',

@@ -25,6 +25,6 @@ class RabbitMQWorker implements ShouldQueue
      */
     public function handle(): void
     {
-        //
+        echo 'RabbitMQWorker is working...';
     }
 }
