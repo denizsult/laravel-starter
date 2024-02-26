@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Package;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,11 +15,27 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $packages = [
+            ['name' => 'Basic', 'price' => 29.99],
+            ['name' => 'Standard', 'price' => 49.99],
+            ['name' => 'Premium', 'price' => 79.99],
+        ];
+
+        $user = User::create([
+            'name' => 'John Doe',
+            'email' => 'john@example.com',
+            'password' => bcrypt('password'),
+        ]);
+
+        foreach ($packages as $packageData) {
+            $package = Package::create($packageData);
+
+            $user->subscriptions()->create([
+                'package_id' => $package->id,
+                'subscription_date' => now(),
+                'expiry_date' => now()->addMonths(1),
+            ]);
+        }
     }
 }

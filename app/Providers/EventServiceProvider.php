@@ -2,13 +2,10 @@
 
 namespace App\Providers;
 
-use App\Jobs\RabbitMQWorker;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Event;
-use VladimirYuldashev\LaravelQueueRabbitMQ\Queue\Jobs\RabbitMQJob;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -28,9 +25,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        App::bindMethod(RabbitMQWorker::class.'@fire', function (RabbitMQJob $job, $app) {
-            $job->fire($app);
-        });
+        //
     }
 
     /**
