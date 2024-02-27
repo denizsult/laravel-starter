@@ -22,11 +22,12 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+            'password' => ['required', 'same:confirm_password', Rules\Password::defaults()],
+            'confirm_password' => 'required',
         ]);
 
-        return 's';
+
 
         $user = User::create([
             'name' => $request->name,
@@ -34,10 +35,23 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+
+
+
         event(new Registered($user));
+
+
+        $user->sendEmailVerificationNotification();
 
         Auth::login($user);
 
-        return response()->noContent();
+        // * Return a JSON response with  user successfully registered and email verification sent
+        return response()->json(
+            [
+                'message' => 'User successfully registered and email verification sent',
+                'user' => $user
+            ],
+            Response::HTTP_CREATED
+        );
     }
 }
